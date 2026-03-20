@@ -1,0 +1,35 @@
+{
+  "name": "faf-wasm-core",
+  "version": "1.0.0",
+  "description": "The kernel router for FAF WASM engines. Routes to faf-wasm-sdk (Rust) today, Zig Cascade tomorrow. One interface, any engine.",
+  "type": "module",
+  "main": "index.ts",
+  "types": "types.ts",
+  "files": [
+    "index.ts",
+    "types.ts",
+    "kernels/",
+    "wasm/"
+  ],
+  "scripts": {
+    "test": "bun test"
+  },
+  "keywords": [
+    "faf",
+    "wasm",
+    "ai-context",
+    "scoring",
+    "kernel"
+  ],
+  "author": "wolfejam",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wolfe-Jam/faf-wasm-core"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=18",
+    "bun": ">=1.0"
+  }
+}
