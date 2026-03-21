@@ -2,7 +2,7 @@
 
 The kernel router for FAF WASM engines. One interface, any kernel, same score.
 
-Routes to [faf-wasm-sdk](https://github.com/Wolfe-Jam/faf-wasm-sdk) (Rust Mk4) today. Zig Cascade tomorrow. No consumer changes.
+Scores [`.faf`](https://faf.one) files (IANA-registered AI-context format) via embedded WASM. Routes to [faf-wasm-sdk](https://github.com/Wolfe-Jam/faf-wasm-sdk) (Rust Mk4) today.
 
 ## Install
 
@@ -35,7 +35,7 @@ interface FafKernel {
   validate(yaml: string): boolean;
   compile(yaml: string): Uint8Array;
   decompile(bytes: Uint8Array): FafbInfo;
-  scoreBinary(bytes: Uint8Array): object;
+  scoreBinary(bytes: Uint8Array): ScoreBinaryResult;
   binaryInfo(bytes: Uint8Array): FafbInfo;
   version(): string;
   readonly engine: "rust" | "zig";
@@ -62,14 +62,13 @@ Unsupported methods throw `KernelCapabilityError`.
 ## What's Inside
 
 - **322KB** embedded Rust WASM binary (Mk4 engine)
-- **284us** per score
+- **284μs** per score
 - **Zero dependencies**
 - **36 tests** passing
 
 ## Consumers
 
 - [bun-sticky](https://github.com/Wolfe-Jam/bun-sticky-faf) — Bun CLI (embeds core)
-- [faf-cli](https://github.com/Wolfe-Jam/faf-cli) — Universal CLI
 - [builder.faf.one](https://builder.faf.one) — Browser scorer
 
 ## Part of the FAF Ecosystem
