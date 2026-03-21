@@ -10,5 +10,5 @@ Initial release.
 - `init()`, `getKernel()`, `capabilities()`, `score()`, `reset()`
 - `ScoreResult`, `FafbInfo`, `SlotState`, `TIERS`, `KernelCapabilityError`
 - 36 tests passing
-- 284us per score
+- 284μs per score
 - Zero dependencies
