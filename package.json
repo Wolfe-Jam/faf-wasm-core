@@ -9,7 +9,8 @@
     "index.ts",
     "types.ts",
     "kernels/",
-    "wasm/"
+    "wasm/",
+    "project.faf"
   ],
   "scripts": {
     "test": "bun test"
