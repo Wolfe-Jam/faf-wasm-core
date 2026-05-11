@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log
+.npm/
+
+# Bun
+bun.lockb
+.bun/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS / misc
+Thumbs.db
+*.log
