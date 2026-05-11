@@ -53,8 +53,10 @@ describe("Kernel Initialization", () => {
     expect(kernel.engine).toBe("rust");
   });
 
-  test("init('zig') throws — Cascade not yet available", async () => {
-    expect(init("zig")).rejects.toThrow("Zig Cascade kernel is not yet available");
+  test("init('zig') loads Cascade kernel (v0.2.0, mk4-routed)", async () => {
+    const kernel = await init("zig");
+    expect(kernel.engine).toBe("zig");
+    expect(kernel.engineVersion).toBe("0.2.0");
   });
 
   test("getKernel() throws before init", () => {
@@ -264,8 +266,86 @@ describe("Capabilities", () => {
     expect(caps.binaryInfo).toBe(true);
   });
 
+  test("Zig kernel — score only (v0.2.0 surface)", async () => {
+    await init("zig");
+    const caps = capabilities();
+    expect(caps.score).toBe(true);
+    expect(caps.scoreEnterprise).toBe(false);
+    expect(caps.validate).toBe(false);
+    expect(caps.compile).toBe(false);
+    expect(caps.decompile).toBe(false);
+    expect(caps.scoreBinary).toBe(false);
+    expect(caps.binaryInfo).toBe(false);
+  });
+
   test("capabilities() throws before init", () => {
     expect(() => capabilities()).toThrow("Call init() first");
+  });
+});
+
+// =========================================================================
+// ZIG (CASCADE) KERNEL — score parity + capability gaps
+// =========================================================================
+
+describe("Zig Cascade kernel (v0.2.0)", () => {
+  let zig: FafKernel;
+  let rust: FafKernel;
+
+  test("loads and reports engine='zig', version='0.2.0'", async () => {
+    zig = await init("zig");
+    expect(zig.engine).toBe("zig");
+    expect(zig.version()).toBe("0.2.0");
+    expect(zig.engineVersion).toBe("0.2.0");
+  });
+
+  test("score(MINIMAL_FAF) returns mk4 21-base-slot score", async () => {
+    reset();
+    zig = await init("zig");
+    const r = zig.score(MINIMAL_FAF);
+    // 3 populated of 21 slots: (3*100 + 21/2)/21 = 14
+    expect(r.score).toBe(14);
+    expect(r.tier).toBe(TIERS.RED.emoji);
+    expect(r.total).toBe(21);
+  });
+
+  test("score(FULL_FAF) returns 100 (all 21 base slots populated)", async () => {
+    reset();
+    zig = await init("zig");
+    const r = zig.score(FULL_FAF);
+    expect(r.score).toBe(100);
+    expect(r.tier).toBe(TIERS.TROPHY.emoji);
+  });
+
+  test("score parity with Rust kernel — same .faf → same score", async () => {
+    reset();
+    rust = await init("rust");
+    const rustScore = rust.score(FULL_FAF).score;
+    reset();
+    zig = await init("zig");
+    const zigScore = zig.score(FULL_FAF).score;
+    expect(zigScore).toBe(rustScore);
+  });
+
+  test("scoreEnterprise throws KernelCapabilityError", async () => {
+    reset();
+    zig = await init("zig");
+    expect(() => zig.scoreEnterprise(MINIMAL_FAF)).toThrow(KernelCapabilityError);
+  });
+
+  test("validate(yaml) throws KernelCapabilityError (cascade validates FAFb bytes, not YAML)", async () => {
+    reset();
+    zig = await init("zig");
+    expect(() => zig.validate(MINIMAL_FAF)).toThrow(KernelCapabilityError);
+  });
+
+  test("compile / decompile / scoreBinary / binaryInfo all throw", async () => {
+    reset();
+    zig = await init("zig");
+    expect(() => zig.compile(MINIMAL_FAF)).toThrow(KernelCapabilityError);
+    const fakeBytes = new Uint8Array([0x46, 0x41, 0x46, 0x42]); // "FAFB"
+    expect(() => zig.decompile(fakeBytes)).toThrow(KernelCapabilityError);
+    expect(() => zig.scoreBinary(fakeBytes)).toThrow(KernelCapabilityError);
+    expect(() => zig.binaryInfo(fakeBytes)).toThrow(KernelCapabilityError);
   });
 });
 

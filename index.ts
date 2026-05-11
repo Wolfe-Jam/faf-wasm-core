@@ -39,9 +39,11 @@ export function capabilities(): KernelCapabilities {
       compile: true, decompile: true, scoreBinary: true, binaryInfo: true,
     };
   }
-  // Zig Cascade (future): scoring + validation only
+  // Zig Cascade v0.2.0: score only. validate(yaml) is rust-kernel
+  // territory — cascade.validate operates on FAFb bytes, not YAML.
+  // FAFb-roundtrip methods are not exposed by the cascade ABI yet.
   return {
-    score: true, scoreEnterprise: false, validate: true,
+    score: true, scoreEnterprise: false, validate: false,
     compile: false, decompile: false, scoreBinary: false, binaryInfo: false,
   };
 }
