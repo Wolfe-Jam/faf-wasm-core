@@ -354,18 +354,31 @@ describe("Zig Cascade kernel (v0.2.0)", () => {
 // =========================================================================
 
 describe("Tier Constants", () => {
-  test("TIERS has all 7 levels", () => {
-    expect(Object.keys(TIERS)).toHaveLength(7);
+  test("TIERS has all 8 levels", () => {
+    expect(Object.keys(TIERS)).toHaveLength(8);
   });
 
-  test("TROPHY requires 100", () => {
+  test("TROPHY requires 100 (the only emoji)", () => {
     expect(TIERS.TROPHY.min).toBe(100);
     expect(TIERS.TROPHY.emoji).toBe("🏆");
   });
 
-  test("RED starts at 0", () => {
-    expect(TIERS.RED.min).toBe(0);
-    expect(TIERS.RED.emoji).toBe("🔴");
+  test("sub-Trophy tiers use geometric symbols, not medals", () => {
+    expect(TIERS.GOLD.emoji).toBe("★");
+    expect(TIERS.SILVER.emoji).toBe("◆");
+    expect(TIERS.BRONZE.emoji).toBe("◇");
+    expect(TIERS.RED.emoji).toBe("○");
+    // retired ladder must be gone
+    for (const t of Object.values(TIERS)) {
+      expect(["🥇", "🥈", "🥉", "🟢", "🟡", "🔴", "🤍"]).not.toContain(t.emoji);
+    }
+  });
+
+  test("RED starts at 1, WHITE holds 0", () => {
+    expect(TIERS.RED.min).toBe(1);
+    expect(TIERS.RED.emoji).toBe("○");
+    expect(TIERS.WHITE.min).toBe(0);
+    expect(TIERS.WHITE.emoji).toBe("♡");
   });
 
   test("tiers are ordered descending by min", () => {

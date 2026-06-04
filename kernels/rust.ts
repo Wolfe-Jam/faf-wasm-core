@@ -2,6 +2,7 @@
 // The compiler IS the spec. This adapter doesn't rewrite — it routes.
 
 import type { FafKernel, ScoreResult, FafbInfo, FafbSection } from "../types";
+import { getTierEmoji } from "../types";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -25,11 +26,17 @@ export async function loadRustKernel(): Promise<FafKernel> {
     engineVersion,
 
     score(yaml: string): ScoreResult {
-      return JSON.parse(bindings.score_faf(yaml));
+      const r: ScoreResult = JSON.parse(bindings.score_faf(yaml));
+      // The WASM still emits the retired emoji ladder internally; the router
+      // owns the glyph, so re-derive tier from the canonical TIERS mapper.
+      r.tier = getTierEmoji(r.score);
+      return r;
     },
 
     scoreEnterprise(yaml: string): ScoreResult {
-      return JSON.parse(bindings.score_faf_enterprise(yaml));
+      const r: ScoreResult = JSON.parse(bindings.score_faf_enterprise(yaml));
+      r.tier = getTierEmoji(r.score);
+      return r;
     },
 
     validate(yaml: string): boolean {

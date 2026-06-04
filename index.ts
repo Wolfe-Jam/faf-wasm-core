@@ -3,7 +3,7 @@
 
 import type { FafKernel, ScoreResult, KernelCapabilities } from "./types";
 export type { FafKernel, ScoreResult, FafbInfo, FafbSection, SlotState, KernelCapabilities } from "./types";
-export { TIERS, KernelCapabilityError } from "./types";
+export { TIERS, getTierEmoji, KernelCapabilityError } from "./types";
 
 let kernel: FafKernel | null = null;
 

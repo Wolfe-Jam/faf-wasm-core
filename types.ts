@@ -3,7 +3,7 @@
 /** Score result from any WASM kernel */
 export interface ScoreResult {
   score: number;           // 0-100 (integer)
-  tier: string;            // Emoji: 🏆 🥇 🥈 🥉 🟢 🟡 🔴
+  tier: string;            // Symbol: 🏆 ★ ◆ ◇ ● ● ○ ♡ (Trophy→White)
   populated: number;       // Filled slots
   empty: number;           // Empty slots
   ignored: number;         // Slotignored slots
@@ -34,16 +34,33 @@ export interface FafbSection {
   content?: string;        // Present in decompile, absent in info
 }
 
-/** Tier boundaries (universal, baked in) */
+/** Tier boundaries (universal, baked in). Canonical source: faf-cli
+ *  src/core/tiers.ts. 🏆 is the ONLY emoji; sub-Trophy tiers use clean
+ *  geometric Unicode (★ ◆ ◇ ● ○ ♡) — the medal/colored-circle ladder is retired. */
 export const TIERS = {
   TROPHY:  { min: 100, emoji: "🏆", name: "Trophy" },
-  GOLD:    { min: 99,  emoji: "🥇", name: "Gold" },
-  SILVER:  { min: 95,  emoji: "🥈", name: "Silver" },
-  BRONZE:  { min: 85,  emoji: "🥉", name: "Bronze" },
-  GREEN:   { min: 70,  emoji: "🟢", name: "Green" },
-  YELLOW:  { min: 55,  emoji: "🟡", name: "Yellow" },
-  RED:     { min: 0,   emoji: "🔴", name: "Red" },
+  GOLD:    { min: 99,  emoji: "★",  name: "Gold" },
+  SILVER:  { min: 95,  emoji: "◆",  name: "Silver" },
+  BRONZE:  { min: 85,  emoji: "◇",  name: "Bronze" },
+  GREEN:   { min: 70,  emoji: "●",  name: "Green" },
+  YELLOW:  { min: 55,  emoji: "●",  name: "Yellow" },
+  RED:     { min: 1,   emoji: "○",  name: "Red" },
+  WHITE:   { min: 0,   emoji: "♡",  name: "White" },
 } as const;
+
+/** Map a score (0-100) to its tier glyph. SINGLE SOURCE OF TRUTH for the
+ *  symbol: WASM kernels own the score; the router owns the branding. Both the
+ *  Rust and Zig kernels route their tier through this so the glyph can never
+ *  drift between engines (or from the canonical tier ladder). */
+export function getTierEmoji(score: number): string {
+  for (const t of [
+    TIERS.TROPHY, TIERS.GOLD, TIERS.SILVER, TIERS.BRONZE,
+    TIERS.GREEN, TIERS.YELLOW, TIERS.RED, TIERS.WHITE,
+  ]) {
+    if (score >= t.min) return t.emoji;
+  }
+  return TIERS.WHITE.emoji;
+}
 
 /** Kernel capability flags */
 export interface KernelCapabilities {

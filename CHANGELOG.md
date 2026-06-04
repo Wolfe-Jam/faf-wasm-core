@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.2.0 (2026-06-03) — Canonical tier symbols
+
+**The `.tier` glyph now matches the canonical FAF tier ladder** (faf-cli
+`src/core/tiers.ts`). The retired medal/colored-circle ladder
+(`🥇🥈🥉🟢🟡🔴🤍`) is gone; `🏆` is the only emoji, sub-Trophy tiers use
+geometric Unicode (`★ ◆ ◇ ● ○ ♡`).
+
+- `types.ts` — `TIERS` updated to geometric symbols; **added `WHITE` tier**
+  (min 0) and corrected `RED` threshold (0 → 1); new exported
+  `getTierEmoji(score)` = the single source of truth for the glyph.
+- `kernels/rust.ts` — re-derives `tier` via `getTierEmoji` instead of passing
+  through the WASM's internally-baked emoji (the WASM still owns the *score*).
+- `kernels/zig.ts` — deduped onto the shared `getTierEmoji`.
+- **Behavior change:** `result.tier` strings differ from 1.1.x (e.g. `🔴` → `○`).
+  The score is unchanged. Note: `faf-wasm-sdk` WASM still emits the old ladder
+  internally — a future rebuild should drop baked branding from the kernel.
+
 ## 1.1.0 (2026-05-11) — Zig Cascade kernel live
 
 **Stage 2 of the Cascade rollout.** The Zig kernel slot — placeholder

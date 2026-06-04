@@ -14,7 +14,7 @@
 // enforceable from this kernel forward.
 
 import type { FafKernel, ScoreResult, FafbInfo, FafbSection } from "../types";
-import { KernelCapabilityError, TIERS } from "../types";
+import { KernelCapabilityError, getTierEmoji } from "../types";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -31,15 +31,8 @@ type CascadeExports = {
   memory: WebAssembly.Memory;
 };
 
-function tierEmojiFor(score: number): string {
-  if (score >= TIERS.TROPHY.min) return TIERS.TROPHY.emoji;
-  if (score >= TIERS.GOLD.min) return TIERS.GOLD.emoji;
-  if (score >= TIERS.SILVER.min) return TIERS.SILVER.emoji;
-  if (score >= TIERS.BRONZE.min) return TIERS.BRONZE.emoji;
-  if (score >= TIERS.GREEN.min) return TIERS.GREEN.emoji;
-  if (score >= TIERS.YELLOW.min) return TIERS.YELLOW.emoji;
-  return TIERS.RED.emoji;
-}
+// tier glyph comes from the shared canonical mapper (getTierEmoji) so the
+// Zig and Rust kernels can never diverge — see types.ts.
 
 export async function loadZigKernel(): Promise<FafKernel> {
   const __filename = fileURLToPath(import.meta.url);
@@ -72,7 +65,7 @@ export async function loadZigKernel(): Promise<FafKernel> {
       // with Rust kernel is confirmed for the headline number.
       return {
         score: s,
-        tier: tierEmojiFor(s),
+        tier: getTierEmoji(s),
         populated: 0,
         empty: 0,
         ignored: 0,

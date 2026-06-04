@@ -1,6 +1,6 @@
 {
   "name": "faf-wasm-core",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "The kernel router for FAF WASM engines. Rust + Zig (Cascade) both live. One interface, any kernel, same score.",
   "type": "module",
   "main": "index.ts",
