@@ -77,7 +77,7 @@ Unsupported methods throw `KernelCapabilityError` with a clear "use the Rust ker
 
 ## Part of the FAF Ecosystem
 
-[FAF](https://faf.one) (Foundational AI-context Format) — IANA-registered (`application/vnd.faf+yaml`). Live ecosystem totals: [faf.one/downloads](https://faf.one/downloads) (hard floor).
+[FAF](https://faf.one) (Foundational AI-context Format) — IANA-registered (`application/vnd.faf+yaml`). Over 100k downloads; see [faf.one/downloads](https://faf.one/downloads) for latest stats.
 
 ## License
 
