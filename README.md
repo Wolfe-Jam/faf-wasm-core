@@ -2,6 +2,8 @@
 
 The kernel router for FAF WASM engines. **One interface, any kernel, same score.**
 
+⭐ [Star it on GitHub](https://github.com/Wolfe-Jam/faf-wasm-core): bookmarks it for you, helps other devs find it too.
+
 Scores [`.faf`](https://faf.one) files (IANA-registered AI-context format) via embedded WASM. Two kernels live today: **Rust** (faf-wasm-sdk, full Mk4 + FAFb roundtrip) and **Zig Cascade** (mk4-routed, sub-microsecond on `validate`/`tier` native; 2.7 KB WASM artifact). Score parity between kernels verified on the same `.faf` inputs.
 
 ## Install
