@@ -66,7 +66,7 @@ Unsupported methods throw `KernelCapabilityError` with a clear "use the Rust ker
 ## What's Inside
 
 - **329 KB** embedded Rust WASM (faf-wasm-sdk, Mk4 + FAFb roundtrip)
-- **2.7 KB** embedded Zig WASM (cascade.wasm v0.2.0, mk4-routed)
+- **2,986 B** embedded Zig WASM (cascade.wasm, mk4-routed, plus `find_section`). Previous optimized ship was 2,742 B. The copy on npm stays at the last published version until a later release.
 - **Zero npm dependencies**
 - **44 tests** passing — including 9 Zig-kernel tests + score-parity-vs-rust receipt
 
