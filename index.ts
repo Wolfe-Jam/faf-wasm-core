@@ -1,9 +1,9 @@
 // faf-wasm-core — The kernel router.
 // faf-wasm-sdk is the spec. This routes to it (and later, to Zig Cascade).
 
-import type { FafKernel, ScoreResult, KernelCapabilities } from "./types";
-export type { FafKernel, ScoreResult, FafbInfo, FafbSection, SlotState, KernelCapabilities } from "./types";
-export { TIERS, getTierEmoji, KernelCapabilityError } from "./types";
+import type { FafKernel, ScoreResult, KernelCapabilities } from "./types.js";
+export type { FafKernel, ScoreResult, FafbInfo, FafbSection, SlotState, KernelCapabilities } from "./types.js";
+export { TIERS, getTierEmoji, KernelCapabilityError } from "./types.js";
 
 let kernel: FafKernel | null = null;
 
@@ -14,10 +14,10 @@ export async function init(engine?: "rust" | "zig"): Promise<FafKernel> {
   const target = engine ?? "rust";
 
   if (target === "rust") {
-    const { loadRustKernel } = await import("./kernels/rust");
+    const { loadRustKernel } = await import("./kernels/rust.js");
     kernel = await loadRustKernel();
   } else {
-    const { loadZigKernel } = await import("./kernels/zig");
+    const { loadZigKernel } = await import("./kernels/zig.js");
     kernel = await loadZigKernel();
   }
 

@@ -1,19 +1,18 @@
 {
   "name": "faf-wasm-core",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "The kernel router for FAF WASM engines. Rust + Zig (Cascade) both live. One interface, any kernel, same score.",
   "type": "module",
-  "main": "index.ts",
-  "types": "types.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "index.ts",
-    "types.ts",
-    "kernels/",
-    "wasm/",
+    "dist",
     "project.faf"
   ],
   "scripts": {
-    "test": "bun test"
+    "test": "bun test",
+    "build": "tsc -p tsconfig.json && rm -rf dist/wasm && cp -R wasm dist/wasm",
+    "prepublishOnly": "bun run build"
   },
   "keywords": [
     "faf",
@@ -28,9 +27,18 @@
     "type": "git",
     "url": "https://github.com/Wolfe-Jam/faf-wasm-core"
   },
-  "dependencies": {},
   "engines": {
     "node": ">=18",
     "bun": ">=1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
   }
 }

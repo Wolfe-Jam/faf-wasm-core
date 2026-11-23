@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.2 (2026-11-23)
+
+**faf-wasm-core now loads in Node.** 1.2.0 and 1.2.1 set `main` to `index.ts`, and Node won't strip types from a file in `node_modules`, so `import('faf-wasm-core')` failed with `ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING`. Bun was not affected.
+
+- The package ships compiled JavaScript and type declarations in `dist/` (`tsc`, with the WASM files copied to `dist/wasm/`); `main`, `types` and `exports` point there.
+- Imports name their `.js` files, as Node's ESM requires.
+- The Rust kernel starts wasm-bindgen with `{ module_or_path }`, so Node no longer prints "using deprecated parameters for the initialization function".
+- **CI:** a new job packs the package, installs the tarball and imports it in Node 18, 22 and 24, scoring with both kernels (`scripts/node-smoke.sh`); the npm publish runs the same check first.
+
 ## 1.2.1 (2026-11-23)
 
 **`cascade.wasm` gains the `find_section` export; scores are unchanged.**

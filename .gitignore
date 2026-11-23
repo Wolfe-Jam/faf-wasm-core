@@ -19,3 +19,4 @@ bun.lockb
 # OS / misc
 Thumbs.db
 *.log
+dist/

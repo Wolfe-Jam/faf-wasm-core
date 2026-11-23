@@ -12,6 +12,8 @@ Scores [`.faf`](https://faf.one) files (IANA-registered AI-context format) via e
 npm install faf-wasm-core
 ```
 
+Runs in Node 18+ and Bun. Both kernels read their WASM from the package with `fs`, so it is not a browser build.
+
 ## Usage
 
 ```typescript
