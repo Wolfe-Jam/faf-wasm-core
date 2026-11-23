@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1 (2026-11-23)
+
+**`cascade.wasm` gains the `find_section` export; scores are unchanged.**
+
+- `wasm/cascade.wasm` — the 2,986-byte blob from cascade `3deeb46` (was 2,742 B), with the `find_section` export. `kernels/zig.ts` is unchanged and no `FafKernel` method uses it yet; score parity with the Rust kernel holds (47 tests pass).
+- **CI:** npm publishing moves to GitHub Actions (`publish-npm.yml`, OIDC Trusted Publishing): a published GitHub release runs the tests and publishes, with no npm token in the repo and a provenance statement on the package.
+
 ## 1.2.0 (2026-06-03) — Canonical tier symbols
 
 **The `.tier` glyph now matches the canonical FAF tier ladder** (faf-cli
