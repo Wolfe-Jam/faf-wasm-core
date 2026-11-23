@@ -1,8 +1,8 @@
 // faf-wasm-core/kernels/rust.ts — Wraps faf-wasm-sdk (322KB WASM, 8 exports)
 // The compiler IS the spec. This adapter doesn't rewrite — it routes.
 
-import type { FafKernel, ScoreResult, FafbInfo, FafbSection } from "../types";
-import { getTierEmoji } from "../types";
+import type { FafKernel, ScoreResult, FafbInfo, FafbSection } from "../types.js";
+import { getTierEmoji } from "../types.js";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -17,7 +17,7 @@ export async function loadRustKernel(): Promise<FafKernel> {
   const wasmPath = join(__dirname, "..", "wasm", "faf_wasm_sdk_bg.wasm");
   const wasmBytes = readFileSync(wasmPath);
 
-  await bindings.default(wasmBytes);
+  await bindings.default({ module_or_path: wasmBytes });
 
   const engineVersion = bindings.sdk_version();
 

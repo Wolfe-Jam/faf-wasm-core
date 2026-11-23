@@ -53,7 +53,7 @@ jobs:
           node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
 
-      # No build step: the package ships TypeScript and the WASM files as they are.
+      # prepublishOnly builds dist/ (tsc, then the WASM files copied in).
       - uses: oven-sh/setup-bun@v2
         if: steps.exists.outputs.skip != 'true'
         with:
@@ -66,6 +66,10 @@ jobs:
       - name: Unit tests
         if: steps.exists.outputs.skip != 'true'
         run: bun test
+
+      - name: Node imports the packed package (both kernels)
+        if: steps.exists.outputs.skip != 'true'
+        run: bash scripts/node-smoke.sh
 
       - name: npm publish (OIDC Trusted Publishing)
         if: steps.exists.outputs.skip != 'true'

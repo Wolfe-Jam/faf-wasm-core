@@ -13,8 +13,8 @@
 // interface, any kernel, same score" promise of the router is
 // enforceable from this kernel forward.
 
-import type { FafKernel, ScoreResult, FafbInfo, FafbSection } from "../types";
-import { KernelCapabilityError, getTierEmoji } from "../types";
+import type { FafKernel, ScoreResult, FafbInfo, FafbSection } from "../types.js";
+import { KernelCapabilityError, getTierEmoji } from "../types.js";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";

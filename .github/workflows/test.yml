@@ -27,3 +27,27 @@ jobs:
 
       - name: Run test suite (Rust kernel + Zig kernel + parity)
         run: bun test
+
+  node-import:
+    name: Node ${{ matrix.node }} imports the packed package
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['18', '22', '24']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Pack, install and import in Node (both kernels)
+        run: bash scripts/node-smoke.sh
