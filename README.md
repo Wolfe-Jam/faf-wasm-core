@@ -4,7 +4,7 @@ The kernel router for FAF WASM engines. **One interface, any kernel, same score.
 
 ⭐ [Star it on GitHub](https://github.com/Wolfe-Jam/faf-wasm-core): bookmarks it for you, helps other devs find it too.
 
-Scores [`.faf`](https://faf.one) files (IANA-registered AI-context format) via embedded WASM. Two kernels live today: **Rust** (faf-wasm-sdk, full Mk4 + FAFb roundtrip) and **Zig Cascade** (mk4-routed, sub-microsecond on `validate`/`tier` native; 2.7 KB WASM artifact). Score parity between kernels verified on the same `.faf` inputs.
+Scores [`.faf`](https://faf.one) files (IANA-registered AI-context format) via embedded WASM. Two kernels live today: **Rust** (faf-wasm-sdk, full Mk4 + FAFb roundtrip) and **Zig Cascade** (mk4-routed, sub-microsecond on `validate`/`tier` native; 3 KB WASM artifact). Score parity between kernels verified on the same `.faf` inputs.
 
 ## Install
 
@@ -68,9 +68,9 @@ Unsupported methods throw `KernelCapabilityError` with a clear "use the Rust ker
 ## What's Inside
 
 - **329 KB** embedded Rust WASM (faf-wasm-sdk, Mk4 + FAFb roundtrip)
-- **2,986 B** embedded Zig WASM (cascade.wasm, mk4-routed, plus `find_section`). Previous optimized ship was 2,742 B. The copy on npm stays at the last published version until a later release.
+- **2,986 B** embedded Zig WASM (cascade.wasm, mk4-routed, plus `find_section`). On npm since 1.2.1.
 - **Zero npm dependencies**
-- **44 tests** passing — including 9 Zig-kernel tests + score-parity-vs-rust receipt
+- **47 tests** passing — including 9 Zig-kernel tests + score-parity-vs-rust receipt
 
 ## Consumers
 

@@ -25,5 +25,5 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Run test suite (44 tests — Rust kernel + Zig kernel + parity)
+      - name: Run test suite (Rust kernel + Zig kernel + parity)
         run: bun test
